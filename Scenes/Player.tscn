@@ -19,9 +19,8 @@ texture = ExtResource( 2 )
 
 [node name="weapon_sprite" type="Sprite" parent="sprite"]
 
-transform/pos = Vector2( -120.842, -47.8331 )
-transform/rot = 3.4973
+transform/pos = Vector2( -1.80499, 5.41501 )
+z/relative = false
 texture = ExtResource( 3 )
-centered = false
 
 
