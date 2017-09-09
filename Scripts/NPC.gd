@@ -3,7 +3,7 @@ extends KinematicBody2D
 var vel = Vector2()
 var rot_speed
 
-func _ready():
+func _ready():	
 	randomize()
 	set_fixed_process(true)
 	
@@ -14,5 +14,6 @@ func _fixed_process(delta):
 	set_rot(get_rot() + rot_speed)
 	move(vel * delta)
 	
-	if is_colliding():
-		self.queue_free()
+	#if is_colliding():
+		
+		#self.queue_free()

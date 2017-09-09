@@ -8,7 +8,7 @@ func _ready():
 	# Create starting npcs
 	for i in range(5):
 		var new_npc = npc_load.instance()
-		new_npc.set_pos(Vector2(1200, rand_range(30, 500)))
+		new_npc.set_pos(Vector2(1200, rand_range(10, 500)))
 		add_child(new_npc)
 	
 	
