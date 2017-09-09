@@ -6,5 +6,5 @@ func _ready():
 	pass
 
 func _on_mexican_wall_body_enter( body ):
-	health_bar.set_value(health_bar.get_value() - 5)
+	health_bar.set_value(health_bar.get_value() - 50)
 	
