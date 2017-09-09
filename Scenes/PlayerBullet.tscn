@@ -1,38 +1,45 @@
 [gd_scene load_steps=4 format=1]
 
-[ext_resource path="res://Scenes/player_bullet.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/player_bullet.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/player_bullet.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10.7605, 10 )
+extents = Vector2( 4.40791, 29.1727 )
 
 [node name="player_bullet" type="Area2D"]
 
-transform/pos = Vector2( 80, 100 )
+transform/pos = Vector2( 83.9014, 88.2958 )
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 2.18894, 0, 0, 0.948415, 14.0433, 0.610958 )
+shapes/0/transform = Matrix32( 2.18894, 0, 0, 0.948415, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 script/script = ExtResource( 1 )
-speed = 1000
+speed = 500
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="bullet" type="Sprite" parent="."]
 
-transform/pos = Vector2( 10.9645, 1.13917 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
-transform/pos = Vector2( 14.0433, 0.610958 )
 transform/scale = Vector2( 2.18894, 0.948415 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[node name="lifetime" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 3.0
+one_shot = false
+autostart = true
+
+[connection signal="timeout" from="lifetime" to="." method="_on_lifetime_timeout"]
 
 
