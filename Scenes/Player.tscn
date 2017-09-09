@@ -11,7 +11,7 @@ extents = Vector2( 135.138, 222.352 )
 
 [node name="player" type="KinematicBody2D"]
 
-transform/pos = Vector2( 599.173, 261.518 )
+transform/pos = Vector2( 280.591, 242.177 )
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -25,7 +25,23 @@ script/script = ExtResource( 1 )
 
 texture = ExtResource( 2 )
 
-[node name="weapon_sprite" type="Sprite" parent="sprite"]
+[node name="weapon_sprite" type="Sprite" parent="."]
 
+transform/pos = Vector2( -3.8634, -43.1511 )
+transform/rot = 90.0
+texture = ExtResource( 3 )
+
+[node name="Position2D" type="Position2D" parent="weapon_sprite"]
+
+transform/pos = Vector2( 8.03711, 104.598 )
+
+[node name="bullet_container" type="Node" parent="."]
+
+[node name="gun_timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
 
 
