@@ -7,6 +7,8 @@ var vel= Vector2()
 export var speed=1000
 
 func _ready():
+	
+	
 	set_fixed_process(true)
 
 func start_at(dir, pos):
@@ -23,5 +25,6 @@ func _on_lifetime_timeout():
 
 func _on_player_bullet_body_enter( body ):
 	if body.get_groups().has("npc"):
-		queue_free()
 		body.destroy()
+		Game.explosion(get_pos())
+		queue_free()

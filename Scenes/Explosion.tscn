@@ -23,8 +23,6 @@ animations = [ {
 
 frames = SubResource( 1 )
 animation = "regular"
-frame = 7
-playing = true
 script/script = ExtResource( 9 )
 
 [connection signal="finished" from="." to="." method="_on_explosion_finished"]

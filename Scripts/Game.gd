@@ -1,7 +1,8 @@
 extends Node
 
 var npc_load = preload("res://Scenes/NPC.tscn")
-
+onready var explosion = preload("res://Scenes/Explosion.tscn")
+var expl
 func _ready():
 	
 	# Create starting npcs
@@ -13,3 +14,9 @@ func _ready():
 
 func _on_Button_pressed():
 	get_tree().set_pause(true)
+
+func explosion(pos):
+	expl = explosion.instance()
+	add_child(expl)
+	expl.set_pos(pos)
+	expl.play()
