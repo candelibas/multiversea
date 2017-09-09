@@ -2,8 +2,10 @@ extends KinematicBody2D
 
 var vel = Vector2()
 var rot_speed
-
-func _ready():	
+var explosion = preload("res://Scenes/Explosion.tscn")
+func _ready():
+	#add npc tag to all enemies
+	add_to_group("npc")
 	randomize()
 	set_fixed_process(true)
 	
@@ -17,3 +19,9 @@ func _fixed_process(delta):
 	#if is_colliding():
 		
 		#self.queue_free()
+func destroy():
+	var expl = explosion.instance()
+	add_child(expl)
+	expl.set_pos(get_pos())
+	expl.play()
+	queue_free()

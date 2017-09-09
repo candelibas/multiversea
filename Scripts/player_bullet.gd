@@ -19,3 +19,9 @@ func _fixed_process(delta):
 
 func _on_lifetime_timeout():
 	queue_free()
+
+
+func _on_player_bullet_body_enter( body ):
+	if body.get_groups().has("npc"):
+		queue_free()
+		body.destroy()
