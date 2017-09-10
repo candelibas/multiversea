@@ -73,7 +73,7 @@ params/stretch_mode = 0
 
 [node name="head" type="Sprite" parent="."]
 
-transform/pos = Vector2( 652.053, 102.871 )
+transform/pos = Vector2( 652.867, 98.871 )
 texture = ExtResource( 6 )
 
 [connection signal="pressed" from="play_button" to="." method="_on_play_button_pressed"]
