@@ -9,7 +9,7 @@ func _ready():
 	sound.play("gameplay")
 	# Create starting npcs
 	timer.start()
-	timer.set_wait_time(7 - timer_counter)
+	timer.set_wait_time(5 - timer_counter)
 	
 func spawn_npc():
 	for i in range(5):

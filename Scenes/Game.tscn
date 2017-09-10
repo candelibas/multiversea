@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Background/background.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Healthbar.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Background/bg.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Background/star.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Healthbar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/MexicanWall.gd" type="Script" id=5]
-[ext_resource path="res://Assets/UI/button_restart1.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/UI/button_restart2.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Sound/explosion.wav" type="Sample" id=8]
 [ext_resource path="res://Assets/Sound/gameplay.wav" type="Sample" id=9]
@@ -41,7 +41,35 @@ transform/pos = Vector2( 641.127, 256.755 )
 z/z = -2
 texture = ExtResource( 2 )
 
-[node name="healthbar" parent="." instance=ExtResource( 3 )]
+[node name="Particles2D" type="Particles2D" parent="."]
+
+transform/pos = Vector2( 958.544, 248.256 )
+transform/scale = Vector2( 0.746197, 0.746197 )
+config/amount = 70
+config/lifetime = 7.0
+config/process_mode = 1
+config/half_extents = Vector2( 350, 350 )
+config/texture = ExtResource( 3 )
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 0.0
+params/spin_velocity = 0.12
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/spread = 180.0
+color/color = Color( 0.635294, 0.690196, 0, 1 )
+
+[node name="healthbar" parent="." instance=ExtResource( 4 )]
 
 rect/scale = Vector2( 0.5, 0.3 )
 margin/left = 147.0
@@ -49,29 +77,52 @@ margin/top = 9.0
 margin/right = 647.0
 margin/bottom = 109.0
 
-[node name="player" parent="." instance=ExtResource( 4 )]
+[node name="mexican_wall" type="KinematicBody2D" parent="."]
 
-transform/pos = Vector2( 153.234, 398.473 )
-transform/scale = Vector2( 0.5, 0.5 )
-
-[node name="mexican_wall" type="Area2D" parent="."]
-
+editor/display_folded = true
+transform/pos = Vector2( -22.1606, -3.3241 )
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 591.596, -1.52588e-05 )
+shapes/0/transform = Matrix32( 1, 0, 0, 2.59797, 624.931, 259.244 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 5 )
+
+[node name="wall" type="Area2D" parent="mexican_wall"]
+
+transform/pos = Vector2( 627.374, 255.532 )
+transform/scale = Vector2( 1, 7.99948 )
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 0.324767, -2.44305, 0.464024 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = ExtResource( 5 )
 
-[node name="collision" type="CollisionShape2D" parent="mexican_wall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mexican_wall/wall"]
 
-transform/pos = Vector2( 591.596, -1.52588e-05 )
+transform/pos = Vector2( -2.44305, 0.464024 )
+transform/scale = Vector2( 1, 0.324767 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[node name="CollisionShape2D1" type="CollisionShape2D" parent="mexican_wall"]
+
+transform/pos = Vector2( 624.931, 259.244 )
+transform/scale = Vector2( 1, 2.59797 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="player" parent="." instance=ExtResource( 6 )]
+
+transform/pos = Vector2( 153.234, 398.473 )
+transform/scale = Vector2( 0.5, 0.5 )
 
 [node name="restart_button" type="TextureButton" parent="."]
 
@@ -87,8 +138,7 @@ margin/bottom = 265.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 6 )
-textures/pressed = ExtResource( 7 )
+textures/normal = ExtResource( 7 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -116,7 +166,43 @@ wait_time = 1.0
 one_shot = false
 autostart = false
 
-[connection signal="body_enter" from="mexican_wall" to="mexican_wall" method="_on_mexican_wall_body_enter"]
+[node name="label_score" type="Label" parent="."]
+
+rect/scale = Vector2( 1.5, 1.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 298.0
+margin/top = 46.0
+margin/right = 359.0
+margin/bottom = 60.0
+custom_colors/font_color = Color( 0.957031, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.585938, 0.0320435, 0.0320435, 1 )
+text = "0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="score_appear" type="Label" parent="."]
+
+rect/scale = Vector2( 1.5, 1.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 237.0
+margin/top = 45.0
+margin/right = 277.0
+margin/bottom = 59.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Score:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[connection signal="body_enter" from="mexican_wall/wall" to="mexican_wall" method="_on_wall_body_enter"]
 
 [connection signal="pressed" from="restart_button" to="." method="_on_restart_button_pressed"]
 
