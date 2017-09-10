@@ -1,19 +1,24 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Background/background.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Healthbar.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Background/bg.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Background/star.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Healthbar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/MexicanWall.gd" type="Script" id=5]
-[ext_resource path="res://Assets/UI/button_restart1.png" type="Texture" id=6]
-[ext_resource path="res://Assets/UI/button_restart2.png" type="Texture" id=7]
-[ext_resource path="res://Scripts/RestartButton.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/UI/button_restart1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/UI/button_restart2.png" type="Texture" id=8]
+[ext_resource path="res://Scripts/RestartButton.gd" type="Script" id=9]
 
-[sub_resource type="SegmentShape2D" id=1]
+[sub_resource type="ColorRamp" id=2]
+
+offsets = FloatArray( 0.321637, 0.807018, 1 )
+colors = ColorArray( 1, 1, 1, 1, 0.619608, 0.67451, 0, 1, 0, 0, 0, 1 )
+
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-a = Vector2( -5.85022, 650.7 )
-b = Vector2( -3.72028, -125.886 )
+extents = Vector2( 10, 94.2901 )
 
 [node name="world" type="Node"]
 
@@ -25,7 +30,36 @@ transform/pos = Vector2( 641.127, 256.755 )
 z/z = -2
 texture = ExtResource( 2 )
 
-[node name="healthbar" parent="." instance=ExtResource( 3 )]
+[node name="Particles2D" type="Particles2D" parent="."]
+
+transform/pos = Vector2( 958.544, 248.256 )
+transform/scale = Vector2( 0.746197, 0.746197 )
+config/amount = 70
+config/lifetime = 7.0
+config/process_mode = 1
+config/half_extents = Vector2( 350, 350 )
+config/texture = ExtResource( 3 )
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 0.0
+params/spin_velocity = 0.12
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/spread = 180.0
+color/color = Color( 0.635294, 0.690196, 0, 1 )
+color/color_ramp = SubResource( 2 )
+
+[node name="healthbar" parent="." instance=ExtResource( 4 )]
 
 rect/scale = Vector2( 0.5, 0.3 )
 margin/left = 147.0
@@ -33,29 +67,52 @@ margin/top = 9.0
 margin/right = 647.0
 margin/bottom = 109.0
 
-[node name="player" parent="." instance=ExtResource( 4 )]
+[node name="mexican_wall" type="KinematicBody2D" parent="."]
 
-transform/pos = Vector2( 153.234, 398.473 )
-transform/scale = Vector2( 0.5, 0.5 )
-
-[node name="mexican_wall" type="Area2D" parent="."]
-
+editor/display_folded = true
+transform/pos = Vector2( -22.1606, -3.3241 )
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 591.596, -1.52588e-05 )
+shapes/0/transform = Matrix32( 1, 0, 0, 2.59797, 624.931, 259.244 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 5 )
+
+[node name="wall" type="Area2D" parent="mexican_wall"]
+
+transform/pos = Vector2( 627.374, 255.532 )
+transform/scale = Vector2( 1, 7.99948 )
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 0.324767, -2.44305, 0.464024 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = ExtResource( 5 )
 
-[node name="collision" type="CollisionShape2D" parent="mexican_wall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mexican_wall/wall"]
 
-transform/pos = Vector2( 591.596, -1.52588e-05 )
+transform/pos = Vector2( -2.44305, 0.464024 )
+transform/scale = Vector2( 1, 0.324767 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[node name="CollisionShape2D1" type="CollisionShape2D" parent="mexican_wall"]
+
+transform/pos = Vector2( 624.931, 259.244 )
+transform/scale = Vector2( 1, 2.59797 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="player" parent="." instance=ExtResource( 6 )]
+
+transform/pos = Vector2( 153.234, 398.473 )
+transform/scale = Vector2( 0.5, 0.5 )
 
 [node name="restart_button" type="TextureButton" parent="."]
 
@@ -71,13 +128,47 @@ margin/bottom = 265.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 6 )
-textures/pressed = ExtResource( 7 )
+textures/normal = ExtResource( 7 )
+textures/pressed = ExtResource( 8 )
 params/resize_mode = 0
 params/stretch_mode = 0
-script/script = ExtResource( 8 )
+script/script = ExtResource( 9 )
 
-[connection signal="body_enter" from="mexican_wall" to="mexican_wall" method="_on_mexican_wall_body_enter"]
+[node name="label_score" type="Label" parent="."]
+
+rect/scale = Vector2( 2, 2 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 267.0
+margin/top = 11.0
+margin/right = 301.0
+margin/bottom = 57.0
+text = "0"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="score_text" type="Label" parent="label_score"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -37.0
+margin/top = -1.0
+margin/right = 37.0
+margin/bottom = 45.0
+text = "Score:"
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[connection signal="body_enter" from="mexican_wall/wall" to="mexican_wall" method="_on_wall_body_enter"]
 
 [connection signal="pressed" from="restart_button" to="restart_button" method="_on_restart_button_pressed"]
 
