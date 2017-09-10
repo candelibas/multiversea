@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 var vel = Vector2()
 var rot_speed
+onready var sound = get_tree().get_root().get_node("world/sound")
 
 func _ready():
 	#add npc tag to all enemies
@@ -21,5 +22,6 @@ func _fixed_process(delta):
 		
 		#self.queue_free()
 func destroy():
+	sound.play("explosion")
 	queue_free()
 	
